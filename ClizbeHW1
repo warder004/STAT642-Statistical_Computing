@@ -1,0 +1,800 @@
+import numpy as np
+
+from sklearn import linear_model
+
+from numpy import zeros, loadtxt
+
+import matplotlib.pyplot as plt
+
+ 
+
+# predimension the array (totally cheating here)
+
+ 
+
+X = zeros((5,1000,100))
+
+Y = zeros((1000,5))
+
+ 
+
+# Load the data files into the array
+
+ 
+
+X[0,:,:] = loadtxt("DataX0.txt")
+
+Y[:,0] = loadtxt("DataY0.txt")
+
+ 
+
+X[1,:,:] = loadtxt("DataX1.txt")
+
+Y[:,1] = loadtxt("DataY1.txt")
+
+ 
+
+X[2,:,:] = loadtxt("DataX2.txt")
+
+Y[:,2] = loadtxt("DataY2.txt")
+
+ 
+
+X[3,:,:] = loadtxt("DataX3.txt",)
+
+Y[:,3] = loadtxt("DataY3.txt")
+
+ 
+
+X[4,:,:] = loadtxt("DataX4.txt")
+
+Y[:,4] = loadtxt("DataY4.txt")
+
+ 
+
+ 
+
+# Dataset 0 code
+
+ 
+
+clf_O_set0 = linear_model.LinearRegression()
+
+clf_O_set0.fit(X[0,:,:],Y[:,0])
+
+ 
+
+clf_R_set0 = linear_model.Ridge(alpha=0.5)
+
+clf_R_set0.fit(X[0,:,:],Y[:,0])
+
+ 
+
+clf_L_set0 = linear_model.Lasso(alpha=0.5)
+
+clf_L_set0.fit(X[0,:,:],Y[:,0])
+
+ 
+
+clf_E_set0 = linear_model.ElasticNet(alpha=0.5,l1_ratio=0.5)
+
+clf_E_set0.fit(X[0,:,:],Y[:,0])
+
+ 
+
+# Dataset 1 code
+
+ 
+
+clf_O_set1 = linear_model.LinearRegression()
+
+clf_O_set1.fit(X[1,:,:],Y[:,1])
+
+ 
+
+clf_R_set1 = linear_model.Ridge(alpha=0.5)
+
+clf_R_set1.fit(X[1,:,:],Y[:,1])
+
+ 
+
+clf_L_set1 = linear_model.Lasso(alpha=0.5)
+
+clf_L_set1.fit(X[1,:,:],Y[:,1])
+
+ 
+
+clf_E_set1 = linear_model.ElasticNet(alpha=0.5,l1_ratio=0.5)
+
+clf_E_set1.fit(X[1,:,:],Y[:,1])
+
+ 
+
+# Dataset 2 code
+
+ 
+
+clf_O_set2 = linear_model.LinearRegression()
+
+clf_O_set2.fit(X[2,:,:],Y[:,2])
+
+ 
+
+clf_R_set2 = linear_model.Ridge(alpha=0.5)
+
+clf_R_set2.fit(X[2,:,:],Y[:,2])
+
+ 
+
+clf_L_set2 = linear_model.Lasso(alpha=0.5)
+
+clf_L_set2.fit(X[2,:,:],Y[:,2])
+
+ 
+
+clf_E_set2 = linear_model.ElasticNet(alpha=0.5,l1_ratio=0.5)
+
+clf_E_set2.fit(X[2,:,:],Y[:,2])
+
+ 
+
+# Dataset 3 code
+
+ 
+
+clf_O_set3 = linear_model.LinearRegression()
+
+clf_O_set3.fit(X[3,:,:],Y[:,3])
+
+ 
+
+clf_R_set3 = linear_model.Ridge(alpha=0.5)
+
+clf_R_set3.fit(X[3,:,:],Y[:,3])
+
+ 
+
+clf_L_set3 = linear_model.Lasso(alpha=0.5)
+
+clf_L_set3.fit(X[3,:,:],Y[:,3])
+
+ 
+
+clf_E_set3 = linear_model.ElasticNet(alpha=0.5,l1_ratio=0.5)
+
+clf_E_set3.fit(X[3,:,:],Y[:,3])
+
+ 
+
+# Dataset 4 code
+
+ 
+
+clf_O_set4 = linear_model.LinearRegression()
+
+clf_O_set4.fit(X[4,:,:],Y[:,4])
+
+ 
+
+clf_R_set4 = linear_model.Ridge(alpha=0.5)
+
+clf_R_set4.fit(X[4,:,:],Y[:,4])
+
+ 
+
+clf_L_set4 = linear_model.Lasso(alpha=0.5)
+
+clf_L_set4.fit(X[4,:,:],Y[:,4])
+
+ 
+
+clf_E_set4 = linear_model.ElasticNet(alpha=0.5,l1_ratio=0.5)
+
+clf_E_set4.fit(X[4,:,:],Y[:,4])
+
+ 
+
+# THIS IS THE START OF MY CODE
+
+ 
+
+# Segment data into 5 sets
+
+ 
+
+X0 = X[0,:,:]
+
+X1 = X[1,:,:]
+
+X2 = X[2,:,:]
+
+X3 = X[3,:,:]
+
+X4 = X[4,:,:]
+
+ 
+
+Y0 = Y[:,0]
+
+Y1 = Y[:,1]
+
+Y2 = Y[:,2]
+
+Y3 = Y[:,3]
+
+Y4 = Y[:,4]
+
+ 
+
+# Select dataset to use
+
+xData = X0
+
+yData = Y0
+
+ 
+
+# Create the correlation matrix and heatmap 
+
+corrMatrix = np.corrcoef(xData, rowvar = 0)
+
+plt.imshow(corrMatrix, cmap='hot', interpolation='none')
+
+plt.title("Correlation Heatmap")
+
+plt.colorbar()
+
+ 
+
+# Divide out the small dataset
+
+sX = xData[0:100,:]
+
+sY = yData[0:100]
+
+ 
+
+sTestX= sX[0:50,:]
+
+sTrainX= sX[50:75,:]
+
+sValidX= sX[75:100,:]
+
+sTestY = sY[0:50]
+
+sTrainY = sY[50:75]
+
+sValidY = sY[75:100]
+
+ 
+
+# Divide out the large dataset
+
+testX = xData[0:500,:]
+
+trainX = xData[500:750,:]
+
+validX = xData[750:1000,:]
+
+testY = yData[0:500]
+
+trainY = yData[500:750]
+
+validY = yData[750:1000]
+
+ 
+
+##OLS Regression, store coefficients in coeffs
+
+#clf = linear_model.LinearRegression()
+
+#
+
+#clf.fit(sTrainX, sTrainY)
+
+#sYHatTest = clf.predict(sTestX)
+
+#sYHatTrain = clf.predict(sTrainX)
+
+#sCoeffs = clf.coef_
+
+#
+
+#clf.fit(trainX, trainY)
+
+#yHatTest = clf.predict(testX)
+
+#yHatTrain = clf.predict(trainX)
+
+#coeffs = clf.coef_
+
+ 
+
+## Calculate and graph histogram of residuals.
+
+## Small Dataset
+
+#sTrainResids = np.abs(sYHatTrain-sTrainY)
+
+#plt.hist(sTrainResids, bins=5, histtype='stepfilled', normed=True, color='b')
+
+#plt.title("Small Train Data Residual Histogram")
+
+#plt.xlabel("Residual")
+
+#plt.ylabel("Frequency")
+
+#plt.show()
+
+#sTestResids = np.abs(sYHatTest-sTestY)
+
+#plt.hist(sTestResids, bins=5, histtype='stepfilled', normed=True, color='r')
+
+#plt.title("Small Test Data Residual Histogram")
+
+#plt.xlabel("Residual")
+
+#plt.ylabel("Frequency")
+
+#plt.show()
+
+ 
+
+## Large Dataset
+
+#trainResids = np.abs(yHatTrain-trainY)
+
+#testResids = np.abs(yHatTest-testY)
+
+#plt.hist(trainResids, bins=5, histtype='stepfilled', normed=True, color='b', label="Train")
+
+#plt.hist(testResids, bins=5, histtype='stepfilled', normed=True, color='r', alpha=0.7, label="Test")
+
+#plt.title("Large Test Data Residual Histogram")
+
+#plt.xlabel("Residual")
+
+#plt.ylabel("Frequency")
+
+#plt.legend()
+
+#plt.show()
+
+ 
+
+## Ridge Regression SMALL (Well commented)
+
+## Set stopping tolerance
+
+#tol = .0001
+
+## Create lists to store MSE and alphas to plot later
+
+#sTrainRidgeMSE = []
+
+#sValidRidgeMSE = []
+
+#sTestRidgeMSE = []
+
+#allAlpha = []
+
+##  Initialize bounds of r
+
+#minR = -8
+
+#maxR = 8
+
+## Initialize r zooming adjustment
+
+#offset = 1.0
+
+## While the range is > the tolerance
+
+#while np.abs(maxR-minR)>tol:
+
+#    # Increment r through range
+
+#    for r in np.linspace(maxR,minR,100):
+
+#        # Set alpha according to r and store alpha
+
+#        currentAlpha = np.exp(r)
+
+#        allAlpha.append(currentAlpha)
+
+#        # Run Ridge Regression using training data
+
+#        clf = linear_model.Ridge(alpha = currentAlpha, fit_intercept=True).fit(sTrainX, sTrainY)
+
+#        # Predict yhats of 3 datasets, using trained model
+
+#        sYHatTrainRidge = clf.predict(sTrainX)
+
+#        sYHatValidRidge = clf.predict(sValidX)
+
+#        sYHatTestRidge = clf.predict(sTestX)
+
+#        # Calculate MSE for 3 sets
+
+#        STRMSE = sklearn.metrics.mean_squared_error(sTrainY, sYHatTrainRidge)
+
+#        SVRMSE = sklearn.metrics.mean_squared_error(sValidY, sYHatValidRidge)
+
+#        SERMSE = sklearn.metrics.mean_squared_error(sTestY, sYHatTestRidge)
+
+#        #Store MSEs
+
+#        sTrainRidgeMSE.append(STRMSE)
+
+#        sValidRidgeMSE.append(SVRMSE)
+
+#        sTestRidgeMSE.append(SERMSE)
+
+#        # Different way to calc MSEs
+
+#        #sTrainRidgeMSE.append(sum(np.square(sYHatTrainRidge-sTrainY))/len(sTrainY))
+
+#        #sTrainRidgeMSE.append(1.0/len(sTrainY) * sum(np.subtract(sYHatTrainRidge, sTrainY)**2))
+
+#        #sValidRidgeMSE.append(sum(np.square(sYHatValidRidge-sValidY))/len(sValidY))
+
+#        #sValidRidgeMSE.append(1.0/len(sValidY) * sum(np.subtract(sYHatValidRidge, sValidY)**2))
+
+#        #sTestRidgeMSE.append(sum(np.square(sYHatTestRidge-sTestY))/len(sTestY))
+
+#        #sTestRidgeMSE.append(1.0/len(sTestY) * sum(np.subtract(sYHatTestRidge, sTestY)**2))
+
+#        
+
+#        # Find index of best Validation MSE and assign best Alpha by the index
+
+#        indexMSE = sValidRidgeMSE.index(min(sValidRidgeMSE))
+
+#        bestAlpha = allAlpha[indexMSE]
+
+#    # Adjust r to either side of r's for best alpha    
+
+#    minR = np.log(bestAlpha) - offset
+
+#    maxR = np.log(bestAlpha) + offset
+
+#    # Reduce offset
+
+#    offset = offset/5.0
+
+#
+
+## To sort or not to sort?  Note: sorting makes the graph look better, but I think it is incorrect    
+
+##plt.plot(allAlpha, sTrainRidgeMSE, allAlpha, sTestRidgeMSE, allAlpha, sValidRidgeMSE)
+
+#plt.plot(sorted(allAlpha), sorted(sTrainRidgeMSE), sorted(allAlpha), sorted(sTestRidgeMSE), sorted(allAlpha), sorted(sValidRidgeMSE))
+
+##plt.axis([500,0,200,1200])
+
+#plt.show
+
+ 
+
+## Ridge Regression LARGE
+
+#tol = .0001
+
+#trainRidgeMSE = []
+
+#validRidgeMSE = []
+
+#testRidgeMSE = []
+
+#allAlpha = []
+
+#minR = -8
+
+#maxR = 8
+
+#offset = 1.0
+
+#while np.abs(maxR-minR)>tol:
+
+#    for r in np.linspace(maxR,minR,100):
+
+#    
+
+#        currentAlpha = np.exp(r)
+
+#        allAlpha.append(currentAlpha)
+
+#        clf = linear_model.Ridge(alpha = currentAlpha, fit_intercept=True).fit(trainX, trainY)
+
+#        #clf.fit(sTrainX, sTrainY, currentAlpha)
+
+#        yHatTrainRidge = clf.predict(trainX)
+
+#        yHatValidRidge = clf.predict(validX)
+
+#        yHatTestRidge = clf.predict(testX)
+
+#        TRMSE = sklearn.metrics.mean_squared_error(trainY, yHatTrainRidge)
+
+#        VRMSE = sklearn.metrics.mean_squared_error(validY, yHatValidRidge)
+
+#        ERMSE = sklearn.metrics.mean_squared_error(testY, yHatTestRidge)
+
+#        trainRidgeMSE.append(TRMSE)
+
+#        validRidgeMSE.append(VRMSE)
+
+#        testRidgeMSE.append(ERMSE)
+
+#        #sTrainRidgeMSE.append(sum(np.square(sYHatTrainRidge-sTrainY))/len(sTrainY))
+
+#        #sTrainRidgeMSE.append(1.0/len(sTrainY) * sum(np.subtract(sYHatTrainRidge, sTrainY)**2))
+
+#        #sValidRidgeMSE.append(sum(np.square(sYHatValidRidge-sValidY))/len(sValidY))
+
+#        #sValidRidgeMSE.append(1.0/len(sValidY) * sum(np.subtract(sYHatValidRidge, sValidY)**2))
+
+#        #sTestRidgeMSE.append(sum(np.square(sYHatTestRidge-sTestY))/len(sTestY))
+
+#        #sTestRidgeMSE.append(1.0/len(sTestY) * sum(np.subtract(sYHatTestRidge, sTestY)**2))
+
+#    
+
+#        indexMSE = validRidgeMSE.index(min(validRidgeMSE))
+
+#        bestAlpha = allAlpha[indexMSE]
+
+#    minR = np.log(bestAlpha) - offset
+
+#    maxR = np.log(bestAlpha) + offset
+
+#    offset = offset/5.0
+
+#    
+
+##plt.plot(allAlpha, sTrainRidgeMSE, allAlpha, sTestRidgeMSE, allAlpha, sValidRidgeMSE)
+
+#plt.plot(sorted(allAlpha), sorted(trainRidgeMSE), sorted(allAlpha), sorted(testRidgeMSE), sorted(allAlpha), sorted(validRidgeMSE))
+
+##plt.axis([500,0,200,1200])
+
+#plt.show    
+
+    
+
+## LASSO Regression SMALL
+
+#tol = .0001
+
+#sTrainLassoMSE = []
+
+#sValidLassoMSE = []
+
+#sTestLassoMSE = []
+
+#allAlpha = []
+
+#minR = -8
+
+#maxR = 8
+
+#offset = 1.0
+
+#while np.abs(maxR-minR)>tol:
+
+#    for r in np.linspace(maxR,minR,100):
+
+#    
+
+#        currentAlpha = np.exp(r)
+
+#        allAlpha.append(currentAlpha)
+
+#        clf = linear_model.Lasso(alpha = currentAlpha).fit(sTrainX, sTrainY)
+
+#        #clf.fit(sTrainX, sTrainY, currentAlpha)
+
+#        sYHatTrainLasso = clf.predict(sTrainX)
+
+#        sYHatValidLasso = clf.predict(sValidX)
+
+#        sYHatTestLasso = clf.predict(sTestX)
+
+#        STLMSE = sklearn.metrics.mean_squared_error(sTrainY, sYHatTrainLasso)
+
+#        SVLMSE = sklearn.metrics.mean_squared_error(sValidY, sYHatValidLasso)
+
+#        SELMSE = sklearn.metrics.mean_squared_error(sTestY, sYHatTestLasso)
+
+#        sTrainLassoMSE.append(STLMSE)
+
+#        sValidLassoMSE.append(SVLMSE)
+
+#        sTestLassoMSE.append(SELMSE)
+
+#            
+
+#        indexMSE = sValidLassoMSE.index(min(sValidLassoMSE))
+
+#        bestAlpha = allAlpha[indexMSE]
+
+#    minR = np.log(bestAlpha) - offset
+
+#    maxR = np.log(bestAlpha) + offset
+
+#    offset = offset/5.0
+
+#    
+
+##plt.plot(allAlpha, sTrainLassoMSE, allAlpha, sTestLassoMSE, allAlpha, sValidLassoMSE)
+
+#plt.plot(sorted(allAlpha), sorted(sTrainLassoMSE), sorted(allAlpha), sorted(sTestLassoMSE), sorted(allAlpha), sorted(sValidLassoMSE))
+
+##plt.axis([500,0,200,1200])
+
+#plt.show
+
+    
+
+## LASSO Regression LARGE
+
+#tol = .0001
+
+#trainLassoMSE = []
+
+#validLassoMSE = []
+
+#testLassoMSE = []
+
+#allAlpha = []
+
+#minR = -2
+
+#maxR = 2
+
+#offset = 1.0
+
+#while np.abs(maxR-minR)>tol:
+
+#    for r in np.linspace(maxR,minR,100):
+
+#    
+
+#        currentAlpha = np.exp(r)
+
+#        allAlpha.append(currentAlpha)
+
+#        clf = linear_model.Lasso(alpha = currentAlpha).fit(trainX, trainY)
+
+#        #clf.fit(sTrainX, sTrainY, currentAlpha)
+
+#        yHatTrainLasso = clf.predict(trainX)
+
+#        yHatValidLasso = clf.predict(validX)
+
+#        yHatTestLasso = clf.predict(testX)
+
+#        TLMSE = sklearn.metrics.mean_squared_error(trainY, yHatTrainLasso)
+
+#        VLMSE = sklearn.metrics.mean_squared_error(validY, yHatValidLasso)
+
+#        ELMSE = sklearn.metrics.mean_squared_error(testY, yHatTestLasso)
+
+#        trainLassoMSE.append(TLMSE)
+
+#        validLassoMSE.append(VLMSE)
+
+#        testLassoMSE.append(ELMSE)
+
+#            
+
+#        indexMSE = validLassoMSE.index(min(validLassoMSE))
+
+#        bestAlpha = allAlpha[indexMSE]
+
+#    minR = np.log(bestAlpha) - offset
+
+#    maxR = np.log(bestAlpha) + offset
+
+#    offset = offset/5.0
+
+#    
+
+##plt.plot(allAlpha, trainLassoMSE, allAlpha, testLassoMSE, allAlpha, validLassoMSE)
+
+#plt.plot(sorted(allAlpha), sorted(trainLassoMSE), sorted(allAlpha), sorted(testLassoMSE), sorted(allAlpha), sorted(validLassoMSE))
+
+##plt.axis([500,0,200,1200])
+
+#plt.show
+
+    
+
+## ELASTIC Regression
+
+#tol = .01
+
+#trainElasticMSE = []
+
+#validElasticMSE = []
+
+#testElasticMSE = []
+
+#allAlpha = []
+
+#allRho = []
+
+#minR = -5
+
+#maxR = 5
+
+#minRho = 0
+
+#maxRho = 1
+
+#offsetAlpha = 1.0
+
+#offsetRho = 0.2    
+
+#while np.abs(maxR-minR)>tol:    
+
+#    for rho in np.linspace(minRho,maxRho,25):
+
+#        for r in np.linspace(maxR,minR,10):
+
+#            currentRho = rho
+
+#            currentAlpha = np.exp(r)
+
+#            allAlpha.append(currentAlpha)
+
+#            allRho.append(currentRho)
+
+#            clf = linear_model.ElasticNet(alpha = .05, l1_ratio = .5).fit(trainX, trainY)
+
+#            yHatTrainElastic = clf.predict(trainX)
+
+#            yHatValidElastic = clf.predict(validX)
+
+#            yHatTestElastic = clf.predict(testX)
+
+#            TEMSE = sklearn.metrics.mean_squared_error(trainY, yHatTrainElastic)
+
+#            VEMSE = sklearn.metrics.mean_squared_error(validY, yHatValidElastic)
+
+#            EEMSE = sklearn.metrics.mean_squared_error(testY, yHatTestElastic)
+
+#            trainElasticMSE.append(TEMSE)        
+
+#            validElasticMSE.append(VEMSE)
+
+#            testElasticMSE.append(EEMSE)
+
+#        
+
+#            indexMSE = validElasticMSE.index(min(validElasticMSE))
+
+#            bestAlpha = allAlpha[indexMSE]
+
+#            bestRho = allRho[indexMSE]
+
+#            minR = np.log(bestAlpha) - offsetAlpha
+
+#            maxR = np.log(bestAlpha) + offsetAlpha
+
+#            minRho = bestRho - offsetRho
+
+#            maxRho = bestRho + offsetRho
+
+#    
+
+#        if (minRho < 0):
+
+#            minRho = 0
+
+#            if (maxRho > 1):
+
+#                maxRho = 1
+
+#        
+
